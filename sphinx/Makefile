@@ -10,7 +10,7 @@ TBENCH_INTEGRATED_OBJS = $(TBENCHDIR)/client.o \
 CXXFLAGS = -DMODELDIR=\"`pkg-config --variable=modeldir pocketsphinx`\" \
 		     `pkg-config --cflags --libs pocketsphinx sphinxbase` \
 			 -I$(TBENCHDIR) -g -O3 -std=c++0x
-LDFLAGS = -pthread -lrt
+LDFLAGS =  -pthread -lrt
 
 .PHONY : all clean run zsim
 
@@ -27,8 +27,8 @@ decoder.o : decoder.cpp
 
 client.o : client.cpp
 	export PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) && \
-	$(CXX) `pkg-config --cflags pocketsphinx sphinxbase` \
-	$< -c -o $@ $(CXXFLAGS)
+	$(CXX) `pkg-config --cflags pocketsphinx sphinxbase`    \
+	$< -c -o $@  $(CXXFLAGS)
 
 decoder_integrated : client.o $(TBENCH_INTEGRATED_OBJS) decoder.o
 	export PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) && \

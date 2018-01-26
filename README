@@ -110,3 +110,62 @@ We recommend running latency-sensitive applicationwith real time priority (using
 chrt, for instance), to avoid interference from background daemons etc. It is
 also advisable to disable deep sleep states, and limit the system to shallow
 sleep states like C1/C1E.
+
+## PREPARE
+### in ubuntu 17.04 64bit
+- img-dnn
+success
+
+
+- masstree
+sudo apt install libgoogle-perftools-dev
+
+success 
+
+- moses 
+err
+
+- shore
+err
+
+- silo
+silo/Makefile: delete -Werror
+
+success
+
+- specjbb 
+
+Change Makefile.config
+
+```
+# Set this to point to the top level installation directory of the Java
+# Development Kit. Only needed for Specjbb
+JDK_PATH=/usr/lib/jvm/java-8-openjdk-amd64/
+```
+success
+
+- sphix
+```
+ ./build.sh 
+export PKG_CONFIG_PATH=/chydata/thecode/benchmarks/tailbench-v0.9/sphinx/sphinx-install/lib/pkgconfig && \
+g++ client.o ../harness/client.o ../harness/tbench_client_networked.o -o decoder_client_networked `pkg-config --libs pocketsphinx sphinxbase`-pthread -lrt 
+/usr/bin/ld: 找不到 -lm-pthread
+collect2: error: ld returned 1 exit status
+Makefile:42: recipe for target 'decoder_client_networked' failed
+CHANGE TO
+g++ client.o ../harness/client.o ../harness/tbench_client_networked.o -o decoder_client_networked `pkg-config --libs pocketsphinx sphinxbase` -pthread -lrt
+```
+success
+
+- xapian
+```
+server.cpp: In constructor ‘Server::Server(int, std::__cxx11::string)’:
+server.cpp:28:100: error: use of deleted function ‘Xapian::SimpleStopper& Xapian::SimpleStopper::operator=(Xapian::SimpleStopper&&)’
+     stopper = Xapian::SimpleStopper(stopWords, stopWords + sizeof(stopWords) / sizeof(stopWords[0]));
+/usr/include/xapian/queryparser.h:95:33: error: ‘void Xapian::Stopper::operator=(const Xapian::Stopper&)’ is private within this context
+...
+/usr/include/xapian/queryparser.h:48:10: note: declared private here
+     void operator=(const Stopper &);
+          ^~~~~~~~
+Makefile:52: recipe for target 'server.o' failed
+```

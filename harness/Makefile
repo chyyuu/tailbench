@@ -9,6 +9,7 @@ default: client.o tbench_server_integrated.o tbench_server_networked.o \
 	tbench_client_networked.o tbench.jar
 
 client.o : client.cpp client.h $(COMMON_INCLUDES)
+	echo "build client"
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 tbench_server_integrated.o : tbench_server_integrated.cpp tbench_server.h \
